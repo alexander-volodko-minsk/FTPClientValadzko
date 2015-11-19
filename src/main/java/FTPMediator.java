@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -47,7 +46,7 @@ public class FTPMediator
 	
 	//Открытие новой папки
 	//____________________
-	public void open(FTPClient client,String path, ArrayList<String> Directories) throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException
+	public void open(FTPClient client,String path, ArrayList<String> Directories)
 	{
 		    //метка, показывающая есть ли указанная папка в списке доступных
 			boolean flag=false;
@@ -63,7 +62,14 @@ public class FTPMediator
 			if(flag==true)
 			{
 				//переходим в новую папку
-				client.changeDirectory(client.currentDirectory()+"/"+path);
+				try 
+				{
+					client.changeDirectory(client.currentDirectory()+"/"+path);
+				} 
+				catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e)
+				{
+					e.printStackTrace();
+				}
 				return;
 			}
 			else
@@ -78,9 +84,16 @@ public class FTPMediator
 	
 	//Возврат в предыдущую папку
 	//__________________________
-	public void back(FTPClient client) throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException
+	public void back(FTPClient client) 
 	{
-		client.changeDirectoryUp();
+		try 
+		{
+			client.changeDirectoryUp();
+		} 
+		catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	//__________________________
 	//Возврат в предыдущую папку
@@ -89,7 +102,7 @@ public class FTPMediator
 	
 	//Скачивание файла
 	//________________
-	public void load(FTPClient client, String name,  ArrayList<String> Files ) throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException 
+	public void load(FTPClient client, String name,  ArrayList<String> Files ) 
 	{
 		//метка, показывающая есть ли указанный файл в списке доступных
 		boolean flag=false;
@@ -105,7 +118,15 @@ public class FTPMediator
 		if(flag==true)
 		{
 			//переходим в новую папку
-			client.download(name, new java.io.File(name));
+			try 
+			{
+				client.download(name, new java.io.File(name));
+			}
+			catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException
+					| FTPDataTransferException | FTPAbortedException e) 
+			{
+				e.printStackTrace();
+			}
 		    System.out.println("downloaded");
 		}
 		else

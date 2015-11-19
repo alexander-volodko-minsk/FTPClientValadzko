@@ -79,9 +79,9 @@ public class Page
 		
 		 if(pageStructure=="case1")//только папки
 		 {
-			System.out.println("___________________");
-			System.out.println("Directories on page:");
-			System.out.println("___________________");
+			System.out.println("____________________________");
+			System.out.println("DIRECTORIES OF CURRENT PAGE:");
+			System.out.println("____________________________");
 			
 			//Папки на текущей странице
 			for(String someDir : DirNames )
@@ -90,22 +90,23 @@ public class Page
 			}
 			
 			//Допустимые операции на текущей странице
-			System.out.println("__________________________________________");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 	     	System.out.println("input 'open' to open directory");
 	     	ValidCommands.add("open");
 			System.out.println("input 'back' to go to the parent directory");
 			ValidCommands.add("back");
 			System.out.println("input 'stop' to exit programm");
 			ValidCommands.add("stop");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		 }
 		 
 		 
 		 if(pageStructure=="case2")//только файлы
 		 {
 			//Файлы на текущей странице
-			System.out.println("______________");
-			System.out.println("Files on page:");
-			System.out.println("______________");
+			System.out.println("______________________");
+			System.out.println("FILES ON CURRENT PAGE:");
+			System.out.println("______________________");
 			
 			//Файлы на текущей странице
 		    for(String someFile : FileNames )
@@ -114,21 +115,22 @@ public class Page
 			}
 		    
 		    //Допустимые операции на текущей странице
-		    System.out.println("__________________________________________");
+		    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 			System.out.println("input 'back' to go to the parent directory");
 			ValidCommands.add("back");
 			System.out.println("input 'load' to download the file");
 			ValidCommands.add("load");
 			System.out.println("input 'stop' to exit programm");
 			ValidCommands.add("stop");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		 }
 		 
 		 
 		 if(pageStructure=="case3")//файлы и папки
 		 {
-			System.out.println("___________________");
-			System.out.println("Directories on page:");
-			System.out.println("___________________");
+			System.out.println("____________________________");
+			System.out.println("DIRECTORIES OF CURRENT PAGE:");
+			System.out.println("____________________________");
 				
 			//Папки на текущей странице
 			for(String someDir : DirNames )
@@ -138,9 +140,9 @@ public class Page
 				
 			//Файлы на текущей странице
 				 
-			System.out.println("______________");
-			System.out.println("Files on page:");
-			System.out.println("______________");
+			System.out.println("______________________");
+			System.out.println("FILES ON CURRENT PAGE:");
+			System.out.println("______________________");
 				
 			//Файлы на текущей странице
 			for(String someFile : FileNames )
@@ -149,7 +151,7 @@ public class Page
 			}
 			
 			//Допустимые операции на текущей странице
-			System.out.println("__________________________________________");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 			System.out.println("input 'open' to open directory");
 			ValidCommands.add("open");
 			System.out.println("input 'back' to go to the parent directory");
@@ -158,17 +160,19 @@ public class Page
 			ValidCommands.add("load");
 			System.out.println("input 'stop' to exit programm");
 			ValidCommands.add("stop");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		 }
 		 
 		 if(pageStructure=="empty directory")
 		 {
-			System.out.println("Empty directory");
+			System.out.println("!! EMPTY DIRECTORY !!");
 			//Допустимые операции на текущей странице
-			System.out.println("__________________________________________");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 			System.out.println("input 'back' to go to the parent directory");
 			ValidCommands.add("back");
 			System.out.println("input 'stop' to exit programm");
 			ValidCommands.add("stop");
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		 } 
 	}
 	//______________________________________
