@@ -14,131 +14,96 @@ public abstract class FTPRunner {
 	static String command;
 
 	// статический метод ввода данных, в качестве параметра передаем сообщение
-	public static String readCommand(String message) {
+	public static String readCommand(String message) 
+	{
 		System.out.println(message);
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		return command = scan.nextLine();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		// Запрос данных о требуемом сервере и пользователе
-		String adress = readCommand("Enter the adress");
+		String address = readCommand("Enter the address");
 		String logName = readCommand("Enter the log name");
 		String password = readCommand("Enter the password");
 		// Подключение к серверу
-		FTPMediator browser = new FTPMediator(adress, logName, password);
-		// Создание клиента
-		FTPClient client = null;
-		
-		// подключение
-		//____________
-		try 
-		{
-			client = browser.connect();
-		}
-
-		catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e) 
-		{
-			System.out.println("Sorry,connection wasn't established! Please, restart the programm with correct values");
-			System.exit(0);
-		}
-		//____________
-		// подключение
-		
+		FTPMediator browser = new FTPMediator(address, logName, password);
+		FTPClient ftp4client=browser.connect();
 		
 
 		// Отображение комманд
-		for (;;) {
+		for (;;)
+		{
 
-			// Информация страницы
+			// Информация текущей страницы
 			// ___________________
 			Page CurrentPage = new Page();
-			
 			// сбор информации о содержимом страницы
 			try 
 			{
-				CurrentPage.collectInfo(client.list());
+				//в качестве параметра передаем массив объектов на странице
+				CurrentPage.collectInfo(ftp4client.list());
 			} 
 			catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException
 					| FTPDataTransferException | FTPAbortedException | FTPListParseException e)
 			{
 				e.printStackTrace();
 			}
-			
 			// вывод информации на экран
 			CurrentPage.showInfo();
 			// ___________________
-			// Информация страницы
+			// Информация текущей страницы
+			
 
 			// Обработка комманд
 			// _________________
+			
+			// Чтение комманды
 			String nextAct = readCommand("Please, choose action");
-
 			// проверка валидности комманды
 			boolean valid = CurrentPage.validCommand(command);
-
 			// если комманда не разрешена
-			if (valid != true) {
+			if (valid != true)
+			{
 				System.out.println("Incorrect command");
 			}
-
 			// если комманда разрешена
-			else {
-				if (nextAct.equals("open")) {
-					// чтение названия следующей папки
+			else
+			{
+				if (nextAct.equals("open"))
+				{
+					// чтение названия запрашиваемой папки
 					String nextDir = readCommand("input directory name");
-
-					// передаем коллекцию все доступные папки
-					try 
-					{
-						browser.open(client, nextDir, CurrentPage.DirNames);
-					} 
-					catch (IllegalStateException e) 
-					{
-						e.printStackTrace();
-					}
+					// запрос в FTPMediator
+					browser.open(ftp4client, nextDir, CurrentPage.DirNames);
 				}
-
-				else if (nextAct.equals("back")) {
-					
-					// переход в предыдущую папку
-					try 
-					{
-						browser.back(client);
-					} 
-					catch (IllegalStateException  e) 
-					{
-						e.printStackTrace();
-					}
+				else if (nextAct.equals("back"))
+				{
+					// запрос в FTPMediator
+					browser.back(ftp4client);
 				}
-
-				else if (nextAct.equals("load")) {
+				else if (nextAct.equals("load")) 
+				{
 					// чтение имени требуемого файла
 					String fileToDownload = readCommand("input file name");
-
-					// скачивание файла
-					try
-					{
-						browser.load(client, fileToDownload, CurrentPage.FileNames);
-					} 
-					catch (IllegalStateException  e)
-					{
-						e.printStackTrace();
-					}
+					// запрос в FTPMediator
+					browser.load(ftp4client, fileToDownload, CurrentPage.FileNames);
 				}
-
-				else if (nextAct.equals("stop")) {
-					// выход из программы
+				else if (nextAct.equals("stop"))
+				{
+					// запрос в FTPMediator
 					browser.disconnect();
 				}
-
-				else {
+				else
+				{
 					System.out.println("Incorrect command");
 				}
 			}
 			// _________________
 			// Обработка комманд
 		}
+		// Отображение комманд
 	}
 }

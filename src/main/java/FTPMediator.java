@@ -10,7 +10,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 public class FTPMediator
 {
 	//название портала
-	private String connectAdress;
+	private String connectAddress;
 	//user name
 	private String logName;
 	//password
@@ -19,9 +19,9 @@ public class FTPMediator
 	
 	//Конструктор класса, в качестве параметра передаем адресс
 	//________________________________________________________
-	public FTPMediator(String connectAdress, String logName, String password)
+	public FTPMediator(String connectAddress, String logName, String password)
 	{
-		this.connectAdress=connectAdress;
+		this.connectAddress=connectAddress;
 		this.logName=logName;
 		this.password=password;	
 	}
@@ -32,12 +32,29 @@ public class FTPMediator
 	
 	//Подключение к указанному адресу
 	//_______________________________
-	public FTPClient connect() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException 
+	public FTPClient connect() 
 	{
 		//Создание FTP-client, connection и login
 		FTPClient client = new FTPClient();
-		client.connect(connectAdress);
-		client.login(logName, password);
+		try 
+		{
+			client.connect(connectAddress);
+		} 
+		catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e) 
+		{
+			System.out.println("Sorry,connection wasn't established! Please, restart the programm with adress value");
+			System.exit(0);
+		}
+		try 
+		{
+			client.login(logName, password);
+		}
+		catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e) 
+		{
+			System.out.println("Sorry,connection wasn't established!"
+					+ " Please, restart the programm with correct login and password values");
+			System.exit(0);
+		}
 		return client;
 	}
 	//_______________________________
