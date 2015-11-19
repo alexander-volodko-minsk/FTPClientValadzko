@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public abstract class Input 
 {
-	// запрашиваемая комманда
+	// Р·Р°РїСЂР°С€РёРІР°РµРјР°СЏ РєРѕРјРјР°РЅРґР°
 	static String command;
 
-	// статический метод ввода данных, в качестве параметра передаем сообщение
+	// СЃС‚Р°С‚РёС‡РµСЃРєРёР№ РјРµС‚РѕРґ РІРІРѕРґР° РґР°РЅРЅС‹С…, РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР° РїРµСЂРµРґР°РµРј СЃРѕРѕР±С‰РµРЅРёРµ
 	public static String readCommand(String message) 
 	{
 		System.out.println(message);

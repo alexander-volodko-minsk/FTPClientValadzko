@@ -10,28 +10,27 @@ public class FTPRunner {
 
 	public static void main(String[] args) 
 	{
-
 		
-		// Запрос данных о требуемом сервере и пользователе
+		// Р—Р°РїСЂРѕСЃ РґР°РЅРЅС‹С… Рѕ С‚СЂРµР±СѓРµРјРѕРј СЃРµСЂРІРµСЂРµ Рё РїРѕР»СЊР·РѕРІР°С‚РµР»Рµ
 		String address = Input.readCommand("Enter the address");
 		String logName = Input.readCommand("Enter the log name");
 		String password = Input.readCommand("Enter the password");
-		// Подключение к серверу
+		// РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµСЂРІРµСЂСѓ
 		FTPMediator browser = new FTPMediator(address, logName, password);
 		FTPClient ftp4client=browser.connect();
 		
 
-		// Отображение комманд
+		// РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РєРѕРјРјР°РЅРґ
 		for (;;)
 		{
 
-			// Информация текущей страницы
+			// РРЅС„РѕСЂРјР°С†РёСЏ С‚РµРєСѓС‰РµР№ СЃС‚СЂР°РЅРёС†С‹
 			// ___________________
 			Page CurrentPage = new Page();
-			// сбор информации о содержимом страницы
+			// СЃР±РѕСЂ РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЃРѕРґРµСЂР¶РёРјРѕРј СЃС‚СЂР°РЅРёС†С‹
 			try 
 			{
-				//в качестве параметра передаем массив объектов на странице
+				//РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂР° РїРµСЂРµРґР°РµРј РјР°СЃСЃРёРІ РѕР±СЉРµРєС‚РѕРІ РЅР° СЃС‚СЂР°РЅРёС†Рµ
 				CurrentPage.collectInfo(ftp4client.list());
 			} 
 			catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException
@@ -39,49 +38,49 @@ public class FTPRunner {
 			{
 				e.printStackTrace();
 			}
-			// вывод информации на экран
+			// РІС‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё РЅР° СЌРєСЂР°РЅ
 			CurrentPage.showInfo();
 			// ___________________
-			// Информация текущей страницы
+			// РРЅС„РѕСЂРјР°С†РёСЏ С‚РµРєСѓС‰РµР№ СЃС‚СЂР°РЅРёС†С‹
 			
 
-			// Обработка комманд
+			// РћР±СЂР°Р±РѕС‚РєР° РєРѕРјРјР°РЅРґ
 			// _________________
 			
-			// Чтение комманды
+			// Р§С‚РµРЅРёРµ РєРѕРјРјР°РЅРґС‹
 			String nextAct = Input.readCommand("Please, choose action");
-			// проверка валидности комманды
+			// РїСЂРѕРІРµСЂРєР° РІР°Р»РёРґРЅРѕСЃС‚Рё РєРѕРјРјР°РЅРґС‹
 			boolean valid = CurrentPage.validCommand(nextAct);
-			// если комманда не разрешена
+			// РµСЃР»Рё РєРѕРјРјР°РЅРґР° РЅРµ СЂР°Р·СЂРµС€РµРЅР°
 			if (valid != true)
 			{
 				System.out.println("Incorrect command");
 			}
-			// если комманда разрешена
+			// РµСЃР»Рё РєРѕРјРјР°РЅРґР° СЂР°Р·СЂРµС€РµРЅР°
 			else
 			{
 				if (nextAct.equals("open"))
 				{
-					// чтение названия запрашиваемой папки
+					// С‡С‚РµРЅРёРµ РЅР°Р·РІР°РЅРёСЏ Р·Р°РїСЂР°С€РёРІР°РµРјРѕР№ РїР°РїРєРё
 					String nextDir = Input.readCommand("input directory name");
-					// запрос в FTPMediator
+					// Р·Р°РїСЂРѕСЃ РІ FTPMediator
 					browser.open(ftp4client, nextDir, CurrentPage.DirNames);
 				}
 				else if (nextAct.equals("back"))
 				{
-					// запрос в FTPMediator
+					// Р·Р°РїСЂРѕСЃ РІ FTPMediator
 					browser.back(ftp4client);
 				}
 				else if (nextAct.equals("load")) 
 				{
-					// чтение имени требуемого файла
+					// С‡С‚РµРЅРёРµ РёРјРµРЅРё С‚СЂРµР±СѓРµРјРѕРіРѕ С„Р°Р№Р»Р°
 					String fileToDownload = Input.readCommand("input file name");
-					// запрос в FTPMediator
+					// Р·Р°РїСЂРѕСЃ РІ FTPMediator
 					browser.load(ftp4client, fileToDownload, CurrentPage.FileNames);
 				}
 				else if (nextAct.equals("stop"))
 				{
-					// запрос в FTPMediator
+					// Р·Р°РїСЂРѕСЃ РІ FTPMediator
 					browser.disconnect();
 				}
 				else
@@ -90,8 +89,8 @@ public class FTPRunner {
 				}
 			}
 			// _________________
-			// Обработка комманд
+			// РћР±СЂР°Р±РѕС‚РєР° РєРѕРјРјР°РЅРґ
 		}
-		// Отображение комманд
+		// РћС‚РѕР±СЂР°Р¶РµРЅРёРµ РєРѕРјРјР°РЅРґ
 	}
 }
