@@ -8,7 +8,42 @@ import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
-public class Actions {
+public class FTPMediator
+{
+	//название портала
+	private String connectAdress;
+	//user name
+	private String logName;
+	//password
+	private String password;
+	
+	
+	//Конструктор класса, в качестве параметра передаем адресс
+	//________________________________________________________
+	public FTPMediator(String connectAdress, String logName, String password)
+	{
+		this.connectAdress=connectAdress;
+		this.logName=logName;
+		this.password=password;	
+	}
+	//________________________________________________________
+	//Конструктор класса, в качестве параметра передаем адресс
+	
+	
+	
+	//Подключение к указанному адресу
+	//_______________________________
+	public FTPClient connect() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException 
+	{
+		//Создание FTP-client, connection и login
+		FTPClient client = new FTPClient();
+		client.connect(connectAdress);
+		client.login(logName, password);
+		return client;
+	}
+	//_______________________________
+	//Подключение к указанному адресу
+	
 	
 	//Открытие новой папки
 	//____________________
@@ -35,7 +70,6 @@ public class Actions {
 			{
 				System.out.println("Incorrect directory");
 			}
-		
 	}
 	//____________________
 	//Открытие новой папки
@@ -82,7 +116,6 @@ public class Actions {
 	//________________
 	//Скачивание файла
 		
-
 	//Выход из программы
 	//__________________
 	public void disconnect() 

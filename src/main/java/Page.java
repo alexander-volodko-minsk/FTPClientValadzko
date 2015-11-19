@@ -2,28 +2,35 @@ import java.util.ArrayList;
 
 import it.sauronsoftware.ftp4j.FTPFile;
 
-public class ShowPage 
+public class Page 
 {
 	
-	//переменная для хранения информации о структуре директории
-	String strCase="empty directory";
-	//ArrayList ссылок на папки
-	ArrayList<String> DirPath=new ArrayList<String>();
-	//ArrayList ссылок на файлы
-	ArrayList<String> FilePath=new ArrayList<String>();
-	//ArrayList доступных комманд
-	ArrayList<String> Commands=new ArrayList<String>();
+	//переменной для хранения информации о структуре директории pageStructure соответствуют:
+	//case1-на странице только папки
+	//case2-на странице только файлы
+	//case3-на странице и папки и файлы
+	//empty directory-страница пустая
+	String pageStructure="empty directory";
+	
+	//ArrayList имен папок на странице
+	ArrayList<String> DirNames=new ArrayList<String>();
+	
+	//ArrayList имен файлов на странице
+	ArrayList<String> FileNames=new ArrayList<String>();
+	
+	//ArrayList доступных комманд на странице
+	ArrayList<String> ValidCommands=new ArrayList<String>();
 	
 	
-	//Метод, определяющий структуру директории и накапливающий ссылки на вложенные объекты
+	//Метод, определяющий структуру страницы и накапливающий имена и тип вложенных объектов
 	//____________________________________________________________________________________
 	public void collectInfo(FTPFile[] pageObjects)
 	{
 		//очищаем коллекции и структуру
-		DirPath.clear();
-		FilePath.clear();
-		strCase="empty directory";
-		//переменная для подсчета количества вложенных директорий
+		DirNames.clear();
+		FileNames.clear();
+		pageStructure="empty directory";
+		//переменная для подсчета количества вложенных папок
 		int dirNumber=0;
 		//переменная для подсчета количества вложенных файлов
 		int fileNumber=0;
@@ -33,36 +40,36 @@ public class ShowPage
 		{
 					
 			//подсчет папок, добавление ссылок на вложенные папки в коллекцию
-		    if(object.getType()==1)
+		    if(object.getType()==1)//'getType=1'-соответствует папке
 		    {
 			      dirNumber=dirNumber+1;
-			      DirPath.add(object.getName());
+			      DirNames.add(object.getName());
 		    }
 		    //подсчет файлов, добавление ссылок на вложенные файлы в коллекцию
-		    if(object.getType()==0)
+		    if(object.getType()==0)//'getType=0'-соответствует файлу
 		    {
 			    fileNumber=fileNumber+1;
-			    FilePath.add(object.getName());
+			    FileNames.add(object.getName());
 		    }
 		}
-		//определяем случай структуры страницы, в последующем будут описаны возможные методы для каждого
+		//определяем случай структуры страницы
 		if((dirNumber!=0)&(fileNumber==0))
 		{
-			strCase="case1";
+			pageStructure="case1";
 		}
 				
 		if((dirNumber==0)&(fileNumber!=0))
 		{
-			strCase="case2";
+			pageStructure="case2";
 		}
 				
 		if((dirNumber!=0)&(fileNumber!=0))
 		{
-			strCase="case3";
+			pageStructure="case3";
 		}
 	}
 	//____________________________________________________________________________________
-	//Метод, определяющий структуру директории и накапливающий ссылки на вложенные объекты
+	//Метод, определяющий структуру страницы и накапливающий имена и тип вложенных объектов
 	
 	
 	//Метод обображающий содержимое страницы
@@ -70,30 +77,30 @@ public class ShowPage
 	public void showInfo()
 	{	
 		
-		 if(strCase=="case1")//только папки
+		 if(pageStructure=="case1")//только папки
 		 {
 			System.out.println("___________________");
 			System.out.println("Directories on page:");
 			System.out.println("___________________");
 			
 			//Папки на текущей странице
-			for(String dirPath : DirPath )
+			for(String someDir : DirNames )
 			{
-				System.out.println(dirPath);
+				System.out.println(someDir);
 			}
 			
 			//Допустимые операции на текущей странице
 			System.out.println("__________________________________________");
 	     	System.out.println("input 'open' to open directory");
-	     	Commands.add("open");
+	     	ValidCommands.add("open");
 			System.out.println("input 'back' to go to the parent directory");
-			Commands.add("back");
-			System.out.println("input 'stop' to exit");
-			Commands.add("stop");
+			ValidCommands.add("back");
+			System.out.println("input 'stop' to exit programm");
+			ValidCommands.add("stop");
 		 }
 		 
 		 
-		 if(strCase=="case2")//только файлы
+		 if(pageStructure=="case2")//только файлы
 		 {
 			//Файлы на текущей странице
 			System.out.println("______________");
@@ -101,32 +108,32 @@ public class ShowPage
 			System.out.println("______________");
 			
 			//Файлы на текущей странице
-		    for(String filePath : FilePath )
+		    for(String someFile : FileNames )
 			{
-				System.out.println(filePath);
+				System.out.println(someFile);
 			}
 		    
 		    //Допустимые операции на текущей странице
 		    System.out.println("__________________________________________");
 			System.out.println("input 'back' to go to the parent directory");
-			Commands.add("back");
+			ValidCommands.add("back");
 			System.out.println("input 'load' to download the file");
-			Commands.add("load");
-			System.out.println("input 'stop' to exit");
-			Commands.add("stop");
+			ValidCommands.add("load");
+			System.out.println("input 'stop' to exit programm");
+			ValidCommands.add("stop");
 		 }
 		 
 		 
-		 if(strCase=="case3")//файлы и папки
+		 if(pageStructure=="case3")//файлы и папки
 		 {
 			System.out.println("___________________");
 			System.out.println("Directories on page:");
 			System.out.println("___________________");
 				
 			//Папки на текущей странице
-			for(String dirPath : DirPath )
+			for(String someDir : DirNames )
 			{
-				System.out.println(dirPath);
+				System.out.println(someDir);
 			}
 				
 			//Файлы на текущей странице
@@ -136,36 +143,53 @@ public class ShowPage
 			System.out.println("______________");
 				
 			//Файлы на текущей странице
-			for(String filePath : FilePath )
+			for(String someFile : FileNames )
 			{
-				System.out.println(filePath);
+				System.out.println(someFile);
 			}
 			
 			//Допустимые операции на текущей странице
 			System.out.println("__________________________________________");
 			System.out.println("input 'open' to open directory");
-			Commands.add("open");
+			ValidCommands.add("open");
 			System.out.println("input 'back' to go to the parent directory");
-			Commands.add("back");
+			ValidCommands.add("back");
 			System.out.println("input 'load' to download the file");
-			Commands.add("load");
-			System.out.println("input 'stop' to exit");
-			Commands.add("stop");
+			ValidCommands.add("load");
+			System.out.println("input 'stop' to exit programm");
+			ValidCommands.add("stop");
 		 }
-		 if(strCase=="empty directory")
+		 
+		 if(pageStructure=="empty directory")
 		 {
 			System.out.println("Empty directory");
 			//Допустимые операции на текущей странице
 			System.out.println("__________________________________________");
 			System.out.println("input 'back' to go to the parent directory");
-			Commands.add("back");
-			System.out.println("input 'stop' to exit");
-			Commands.add("stop");
+			ValidCommands.add("back");
+			System.out.println("input 'stop' to exit programm");
+			ValidCommands.add("stop");
 		 } 
 	}
 	//______________________________________
 	//Метод обображающий содержимое страницы
+	
+	
+	//Метод проверяющий валидность команды
+	//____________________________________
+	public boolean validCommand(String command)
+	{
+		boolean valid=false;
+		for( String someCommand : ValidCommands)
+		{
+			if(someCommand.equals(command))
+			{
+				valid=true;
+			}
+		}
+		return valid;
+	}
+	//____________________________________
+	//Метод проверяющий валидность команды
 
 }
-				
-	
