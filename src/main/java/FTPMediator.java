@@ -17,16 +17,16 @@ public class FTPMediator
 	private String password;
 	
 	
-	//Конструктор класса, в качестве параметра передаем адресс
-	//________________________________________________________
+	//Конструктор класса, в качестве параметра передаем адресс, логин, пароль
+	//_______________________________________________________________________
 	public FTPMediator(String connectAddress, String logName, String password)
 	{
 		this.connectAddress=connectAddress;
 		this.logName=logName;
 		this.password=password;	
 	}
-	//________________________________________________________
-	//Конструктор класса, в качестве параметра передаем адресс
+	//______________________________________________________________________
+	//Конструктор класса, в качестве параметра передаем адресс, логин, пароль
 	
 	
 	
@@ -35,10 +35,10 @@ public class FTPMediator
 	public FTPClient connect() 
 	{
 		//Создание FTP-client, connection и login
-		FTPClient client = new FTPClient();
+		FTPClient ftp4client = new FTPClient();
 		try 
 		{
-			client.connect(connectAddress);
+			ftp4client.connect(connectAddress);
 		} 
 		catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e) 
 		{
@@ -47,7 +47,7 @@ public class FTPMediator
 		}
 		try 
 		{
-			client.login(logName, password);
+			ftp4client.login(logName, password);
 		}
 		catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e) 
 		{
@@ -55,7 +55,7 @@ public class FTPMediator
 					+ " Please, restart the programm with correct login and password values");
 			System.exit(0);
 		}
-		return client;
+		return ftp4client;
 	}
 	//_______________________________
 	//Подключение к указанному адресу
@@ -63,15 +63,15 @@ public class FTPMediator
 	
 	//Открытие новой папки
 	//____________________
-	public void open(FTPClient client,String path, ArrayList<String> Directories)
+	public void open(FTPClient ftp4client,String newDirectoryName, ArrayList<String> Directories)
 	{
 		    //метка, показывающая есть ли указанная папка в списке доступных
 			boolean flag=false;
 			
 			//сравниваем указанную папку со списком существующих
-			for(String directory : Directories )
+			for(String someDirectory : Directories )
 			{
-				if(directory.equals(path))
+				if(someDirectory.equals(newDirectoryName))
 				{
 					flag=true;
 				}
@@ -81,7 +81,7 @@ public class FTPMediator
 				//переходим в новую папку
 				try 
 				{
-					client.changeDirectory(client.currentDirectory()+"/"+path);
+					ftp4client.changeDirectory(ftp4client.currentDirectory()+"/"+newDirectoryName);
 				} 
 				catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e)
 				{
@@ -101,11 +101,11 @@ public class FTPMediator
 	
 	//Возврат в предыдущую папку
 	//__________________________
-	public void back(FTPClient client) 
+	public void back(FTPClient ftp4client) 
 	{
 		try 
 		{
-			client.changeDirectoryUp();
+			ftp4client.changeDirectoryUp();
 		} 
 		catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException e) 
 		{
@@ -119,15 +119,15 @@ public class FTPMediator
 	
 	//Скачивание файла
 	//________________
-	public void load(FTPClient client, String name,  ArrayList<String> Files ) 
+	public void load(FTPClient ftp4client, String newFileName,  ArrayList<String> Files ) 
 	{
 		//метка, показывающая есть ли указанный файл в списке доступных
 		boolean flag=false;
 		
 		//сравниваем указанный файл со списком существующих
-		for(String file : Files )
+		for(String someFile : Files )
 		{
-			if(file.equals(name))
+			if(someFile.equals(newFileName))
 			{
 				flag=true;
 			}
@@ -137,7 +137,7 @@ public class FTPMediator
 			//переходим в новую папку
 			try 
 			{
-				client.download(name, new java.io.File(name));
+				ftp4client.download(newFileName, new java.io.File(newFileName));
 			}
 			catch (IllegalStateException | IOException | FTPIllegalReplyException | FTPException
 					| FTPDataTransferException | FTPAbortedException e) 
@@ -153,6 +153,7 @@ public class FTPMediator
 	}
 	//________________
 	//Скачивание файла
+	
 		
 	//Выход из программы
 	//__________________

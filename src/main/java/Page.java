@@ -4,6 +4,8 @@ import it.sauronsoftware.ftp4j.FTPFile;
 
 public class Page 
 {
+	int fileType=0;//'getType=0'-соответствует файлу
+	int directoryType=1;//'getType=1'-соответствует папке
 	
 	//переменной для хранения информации о структуре директории pageStructure соответствуют:
 	//case1-на странице только папки
@@ -36,20 +38,20 @@ public class Page
 		int fileNumber=0;
 				
 		//проходим по вложенным объектам дирктории и подсчитываем количество папок и файлов, добавляем данные в коллекции
-		for(FTPFile object: pageObjects)
+		for(FTPFile someObject: pageObjects)
 		{
 					
 			//подсчет папок, добавление ссылок на вложенные папки в коллекцию
-		    if(object.getType()==1)//'getType=1'-соответствует папке
+		    if(someObject.getType()==directoryType)//'getType=1'-соответствует папке
 		    {
 			      dirNumber=dirNumber+1;
-			      DirNames.add(object.getName());
+			      DirNames.add(someObject.getName());
 		    }
 		    //подсчет файлов, добавление ссылок на вложенные файлы в коллекцию
-		    if(object.getType()==0)//'getType=0'-соответствует файлу
+		    if(someObject.getType()==fileType)//'getType=0'-соответствует файлу
 		    {
 			    fileNumber=fileNumber+1;
-			    FileNames.add(object.getName());
+			    FileNames.add(someObject.getName());
 		    }
 		}
 		//определяем случай структуры страницы
